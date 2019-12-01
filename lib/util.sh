@@ -1,6 +1,6 @@
 #!/bin/bash
 cruncher () {
   numbo=$1
-  answer=$(echo "($1 / 3) - 2"|bc)
+  answer=$(echo "($numbo / 3) - 2"|bc)
   echo "$answer"
 }

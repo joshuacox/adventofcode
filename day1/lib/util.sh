@@ -11,7 +11,7 @@ cruncher () {
 
 xfuel () {
   this_crunch=$(cruncher $1)
-  if [[ $this_crunch > 0 ]]; then
+  if [[ $this_crunch -gt 0 ]]; then
     req_xfuel=$this_crunch
   else
     req_xfuel=0

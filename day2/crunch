@@ -1,0 +1,18 @@
+#!/bin/bash
+TMP=$(mktemp -d)
+source lib/util.sh
+#slurpy="$(grep -v '^#' ./test|tr ',' '\n' |sort -n)"
+#mapfile -t slurpy < ./test
+#cat ./test|tr ',' '\n' | mapfile -t slurpy
+#cat ./test | mapfile -t slurpy
+cat ./test|tr ',' '\n' > $TMP/lines
+#cat $TMP/lines | mapfile -t slurpy
+mapfile -t slurpy < $TMP/lines
+declare -a orig_slurpy
+orig_slurpy=(${slurpy[*]})
+#cat $TMP/lines
+
+#printer1
+processor1
+printer2
+printf "orig_slurpy[0] = %d\n" ${orig_slurpy[0]}

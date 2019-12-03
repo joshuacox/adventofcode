@@ -1,0 +1,44 @@
+#!/bin/bash
+TMP=$(mktemp -d)
+source lib/util.sh
+#slurpy="$(grep -v '^#' ./test|tr ',' '\n' |sort -n)"
+#mapfile -t slurpy < ./test
+#cat ./test|tr ',' '\n' | mapfile -t slurpy
+#cat ./test | mapfile -t slurpy
+declare -a orig_slurpy
+#orig_slurpy=(${slurpy[*]})
+#cat $TMP/lines
+FIRST_THRESH=100
+SECOND_THRESH=100
+cat ./test|tr ',' '\n' > $TMP/lines
+#cat $TMP/lines | mapfile -t slurpy
+mapfile -t slurped < $TMP/lines
+
+#printer1
+count_one=80
+count_two=9
+while [[ $count_two -lt $SECOND_THRESH ]]; do
+  slurpy=(${slurped[*]})
+  #slurpy[1]=$this_input_one
+  #slurpy[2]=$this_input_two
+  slurpy[1]=$count_one
+  slurpy[2]=$count_two
+  orig_slurpy=(${slurpy[*]})
+  processor1
+  if [[ ${orig_slurpy[0]} -eq 19690720 ]];then
+    echo "found it 1= $count_one and 2= $count_two"
+    printf "orig_slurpy[0] = %d\n" ${orig_slurpy[0]}
+    exit 0
+  fi
+  ((++count_one))
+  if [[ $count_one -gt $FIRST_THRESH ]]; then
+    count_one=0
+    ((++count_two))
+  fi
+  echo $count_one $count_two
+done
+echo "did not find it with 2ndthresh =$SECOND_THRESH"
+
+
+#printer2
+printf "orig_slurpy[0] = %d\n" ${orig_slurpy[0]}
